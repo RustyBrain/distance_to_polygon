@@ -11,7 +11,7 @@ library(ggmap)
 library(purrr)
 
 school <- geojson_read('school_poly.geojson',  what = 'sp')
-register_google(key = KEY)
+register_google(key = 'AIzaSyAHMsRbTeIOiWreQNWYoj1tNwoFq1dzgDk')
 get_coords_from_api <- function(addresses) {
   addresses <- addresses %>%
     cbind(as.data.frame(geocode(addresses$address)))
@@ -94,9 +94,12 @@ server <- function(input, output) {
       df <- df %>%
         select(address, distance, lng, lt)
       write.csv(df, file, row.names = FALSE)
-    }
+    },
+    unlink('most_recent_addresses.csv')
   )
 }
+
+unlink
 
 # Run the application 
 shinyApp(ui = ui, server = server)
